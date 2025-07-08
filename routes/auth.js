@@ -6,7 +6,29 @@ const client_id = process.env.SPOTIFY_CLIENT_ID;
 const client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 const redirect_uri = process.env.REDIRECT_URI;
 
-// SpotifyログインURL生成
+// ✅ Client Credentials Flow でアクセストークン取得
+router.get('/token', async (req, res) => {
+  const tokenUrl = 'https://accounts.spotify.com/api/token';
+  const params = new URLSearchParams({ grant_type: 'client_credentials' });
+
+  try {
+    const response = await fetch(tokenUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Basic ' + Buffer.from(client_id + ':' + client_secret).toString('base64'),
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: params
+    });
+    const data = await response.json();
+    res.json({ access_token: data.access_token });
+  } catch (err) {
+    console.error('Error getting client credentials token:', err);
+    res.status(500).send('Failed to get client credentials token');
+  }
+});
+
+// 🎧 SpotifyログインURL生成
 router.get('/login', (req, res) => {
   const scope = 'user-read-private user-read-email user-library-read user-library-modify streaming';
   const state = Math.random().toString(36).substring(7);
@@ -21,7 +43,7 @@ router.get('/login', (req, res) => {
   res.redirect(authUrl);
 });
 
-// コールバックでトークン取得
+// 🎧 コールバックでトークン取得
 router.get('/callback', async (req, res) => {
   const code = req.query.code || null;
   if (!code) {
@@ -52,7 +74,7 @@ router.get('/callback', async (req, res) => {
   }
 });
 
-// リフレッシュトークン
+// 🔄 リフレッシュトークン
 router.get('/refresh_token', async (req, res) => {
   const refresh_token = req.query.refresh_token;
   const tokenUrl = 'https://accounts.spotify.com/api/token';
