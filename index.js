@@ -24,7 +24,7 @@ app.use('/api/preview', previewRoutes);
 app.use('/api/full', fullRoutes);
 
 app.get('/', (req, res) => {
-  res.send('Just Did Server is running!');
+  res.json({ status: "ok" });
 });
 
 app.listen(PORT, () => {
