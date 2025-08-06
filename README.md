@@ -26,35 +26,7 @@ just-did-server/
 │   ├── preview.js      # 未ログイン向け楽曲推薦API
 │   └── full.js         # ログイン済み向け楽曲推薦API
 ```
-
 ---
-
-## 🌐 起動方法(※開発用)
-
-### 1. 環境変数の設定
-
-`.env` ファイルをルートに配置してください：
-
-```
-SPOTIFY_CLIENT_ID=（SpotifyアプリのクライアントID）
-SPOTIFY_CLIENT_SECRET=（Spotifyアプリのシークレット）
-FRONTEND_URI=https://todo-app-b4af8.web.app
-REDIRECT_URI=https://your-backend.onrender.com/auth/callback
-```
-
-### 2. ローカル実行
-
-```bash
-npm install
-npm run dev     # nodemonで自動リロード付き起動（開発用）
-# または
-npm start       # nodeで通常起動
-```
-
-ポートは `.env` 未指定時は `5000` になります。
-
----
-
 ## 🔗 API エンドポイント
 
 ### `/auth/token`  
@@ -127,12 +99,6 @@ Spotifyからの認証コールバックを受け取り、アクセストーク�
 | デプロイ先  | Render（予定）                   |
 
 ---
-
-## 📌 注意事項
-
-- `.env` ファイルは Git 管理対象に含めないでください。
-- Spotify API 利用時は、[Spotify for Developers](https://developer.spotify.com/dashboard/) にてクライアントアプリ登録が必要です。
-- 本システムは学習目的のアプリに限って使用されます。
 
 ---
 
